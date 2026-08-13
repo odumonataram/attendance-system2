@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Attendance System{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h1>Welcome, {{ current_user.full_name }}!</h1>
+    <p>Role: {{ current_user.role|capitalize }}</p>
+</div>
+
+<div class="dashboard-cards">
+    {% if current_user.is_admin() %}
+        <div class="dash-card">
+            <div class="card-icon">👨‍🏫</div>
+            <h3>Manage Lecturers</h3>
+            <a href="{{ url_for('admin.lecturers') }}" class="btn btn-primary">View Lecturers</a>
+        </div>
+        
+        <div class="dash-card">
+            <div class="card-icon">👨‍🎓</div>
+            <h3>Manage Students</h3>
+            <a href="{{ url_for('admin.students') }}" class="btn btn-primary">View Students</a>
+        </div>
+        
+        <div class="dash-card">
+            <div class="card-icon">📚</div>
+            <h3>Manage Courses</h3>
+            <a href="{{ url_for('admin.courses') }}" class="btn btn-primary">View Courses</a>
+        </div>
+    
+    {% elif current_user.is_lecturer() %}
+        <div class="dash-card">
+            <div class="card-icon">📚</div>
+            <h3>My Courses</h3>
+            <a href="{{ url_for('lecturer.courses') }}" class="btn btn-primary">View Courses</a>
+        </div>
+        
+        <div class="dash-card">
+            <div class="card-icon">📱</div>
+            <h3>Generate QR Code</h3>
+            <a href="{{ url_for('lecturer.courses') }}" class="btn btn-primary">Get Started</a>
+        </div>
+    
+    {% elif current_user.is_student() %}
+        <div class="dash-card">
+            <div class="card-icon">📊</div>
+            <h3>My Attendance</h3>
+            <a href="{{ url_for('student.my_attendance') }}" class="btn btn-primary">View Records</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

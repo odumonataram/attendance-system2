@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Register Students{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Register Students for {{ course.course_code }}</h1>
+</div>
+<div class="form-card">
+    <form method="POST">
+        <div class="students-checklist">
+            {% for student in students %}
+            <div class="checkbox-item">
+                <input type="checkbox" name="student_ids" value="{{ student.id }}" id="student_{{ student.id }}"
+                    {% if student.id in registered_ids %}checked disabled{% endif %}>
+                <label for="student_{{ student.id }}">
+                    {{ student.matric_number }} - {{ student.full_name }}
+                    {% if student.id in registered_ids %}<span class="badge badge-success">Registered</span>{% endif %}
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Register Selected</button>
+            <a href="{{ url_for('lecturer.course_detail', course_id=course.id) }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

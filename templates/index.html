@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome - Attendance System{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>📱 QR Code Attendance System</h1>
+        <p class="hero-subtitle">Modern, efficient, and secure attendance tracking for educational institutions</p>
+        
+        <div class="role-cards">
+            <div class="role-card">
+                <div class="role-icon">👨‍🏫</div>
+                <h3>For Lecturers</h3>
+                <p>Generate QR codes, manage courses, and track student attendance in real-time</p>
+                <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Lecturer Login</a>
+            </div>
+            
+            <div class="role-card">
+                <div class="role-icon">👨‍💼</div>
+                <h3>For Administrators</h3>
+                <p>Manage users, courses, and oversee the entire attendance system</p>
+                <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Admin Login</a>
+            </div>
+            
+            <div class="role-card">
+                <div class="role-icon">👨‍🎓</div>
+                <h3>For Students</h3>
+                <p>Scan QR codes with your phone to mark attendance quickly and easily</p>
+                <p class="note">Scan the QR code displayed by your lecturer</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="features-section">
+    <h2>Key Features</h2>
+    <div class="features-grid">
+        <div class="feature-item">
+            <span class="feature-icon">⚡</span>
+            <h4>Fast & Easy</h4>
+            <p>Mark attendance in seconds by scanning QR code</p>
+        </div>
+        <div class="feature-item">
+            <span class="feature-icon">🔒</span>
+            <h4>Secure</h4>
+            <p>Time-limited QR codes with authentication</p>
+        </div>
+        <div class="feature-item">
+            <span class="feature-icon">📊</span>
+            <h4>Real-time Tracking</h4>
+            <p>View attendance records as they come in</p>
+        </div>
+        <div class="feature-item">
+            <span class="feature-icon">📁</span>
+            <h4>Export Reports</h4>
+            <p>Download attendance data in Excel format</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

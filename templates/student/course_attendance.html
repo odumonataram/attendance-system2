@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Course Attendance{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>{{ course.course_code }} - Attendance Details</h1>
+    <p>{{ course.course_name }}</p>
+</div>
+<div class="table-card">
+    <table class="data-table">
+        <thead>
+            <tr><th>Date</th><th>Time</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+            {% for attendance, session in attendance_records %}
+            <tr>
+                <td>{{ attendance.marked_at.strftime('%Y-%m-%d') }}</td>
+                <td>{{ attendance.marked_at.strftime('%I:%M %p') }}</td>
+                <td><span class="badge badge-success">Present</span></td>
+            </tr>
+            {% else %}
+            <tr><td colspan="3" class="text-center">No attendance records yet</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{{ url_for('student.my_attendance') }}" class="btn btn-secondary">Back</a>
+{% endblock %}

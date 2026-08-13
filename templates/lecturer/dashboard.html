@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Lecturer Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>👨‍🏫 Lecturer Dashboard</h1>
+    <p>Welcome, {{ current_user.full_name }}</p>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">📚</div>
+        <div class="stat-content">
+            <h3>{{ total_courses }}</h3>
+            <p>My Courses</p>
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon">👨‍🎓</div>
+        <div class="stat-content">
+            <h3>{{ total_students }}</h3>
+            <p>Total Students</p>
+        </div>
+    </div>
+</div>
+
+<div class="action-cards">
+    <h2>My Courses</h2>
+    <div class="courses-grid">
+        {% for course in courses %}
+        <div class="course-card">
+            <h3>{{ course.course_code }}</h3>
+            <p>{{ course.course_name }}</p>
+            <p class="course-section">Section {{ course.section }}</p>
+            <p class="course-students">{{ course.registrations|length }} students registered</p>
+            <div class="card-actions">
+                <a href="{{ url_for('lecturer.generate_qr', course_id=course.id) }}" class="btn btn-primary btn-sm">📱 Generate QR</a>
+                <a href="{{ url_for('lecturer.course_detail', course_id=course.id) }}" class="btn btn-secondary btn-sm">View Details</a>
+            </div>
+        </div>
+        {% else %}
+        <p>No courses assigned yet. Please contact the admin.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

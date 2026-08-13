@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}{{ course.course_code }} - Course Details{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>{{ course.course_code }} - {{ course.course_name }}</h1>
+    <p>Section {{ course.section }}</p>
+</div>
+
+<div class="action-buttons">
+    <a href="{{ url_for('lecturer.register_students', course_id=course.id) }}" class="btn btn-primary">➕ Register Students</a>
+    <a href="{{ url_for('lecturer.generate_qr', course_id=course.id) }}" class="btn btn-success">📱 Generate QR Code</a>
+    <a href="{{ url_for('lecturer.attendance_history', course_id=course.id) }}" class="btn btn-secondary">📊 View History</a>
+</div>
+
+<div class="info-section">
+    <h2>Registered Students ({{ students|length }})</h2>
+    <div class="table-card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Matric Number</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.matric_number }}</td>
+                    <td>{{ student.full_name }}</td>
+                    <td>{{ student.email }}</td>
+                    <td class="actions">
+                        <form method="POST" action="{{ url_for('lecturer.unregister_student', course_id=course.id, student_id=student.id) }}" style="display:inline;" onsubmit="return confirm('Remove this student from the course?');">
+                            <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center">No students registered yet</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="info-section">
+    <h2>Recent Attendance Sessions</h2>
+    <div class="table-card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Generated At</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for session in sessions[:5] %}
+                <tr>
+                    <td>{{ session.generated_at.strftime('%Y-%m-%d %I:%M %p') }}</td>
+                    <td>
+                        {% if session.is_expired() %}
+                            <span class="badge badge-danger">Expired</span>
+                        {% else %}
+                            <span class="badge badge-success">Active</span>
+                        {% endif %}
+                    </td>
+                    <td class="actions">
+                        <a href="{{ url_for('lecturer.attendance_session', session_id=session.id) }}" class="btn btn-sm btn-secondary">View Attendance</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="text-center">No sessions yet</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

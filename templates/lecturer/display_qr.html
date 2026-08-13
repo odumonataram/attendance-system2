@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}QR Code - {{ course.course_code }}{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>📱 Attendance QR Code</h1>
+    <p>{{ course.course_code }} - {{ course.course_name }} (Section {{ course.section }})</p>
+</div>
+<div class="qr-display-card">
+    <div class="qr-info">
+        <p><strong>Status:</strong> <span class="badge badge-success">Active</span></p>
+        <p><strong>Generated:</strong> {{ qr_session.generated_at.strftime('%I:%M %p') }}</p>
+        <p><strong>Expires:</strong> {{ qr_session.expires_at.strftime('%I:%M %p') }}</p>
+        <p id="time-remaining" class="time-remaining"></p>
+    </div>
+    <div class="qr-code-container">
+        <img src="{{ qr_image }}" alt="QR Code" class="qr-code-image">
+        <p class="qr-instruction">Students: Scan this code to mark attendance</p>
+    </div>
+    <div class="qr-actions">
+        <a href="{{ url_for('lecturer.attendance_session', session_id=qr_session.id) }}" class="btn btn-primary">View Live Attendance</a>
+        <a href="{{ url_for('lecturer.course_detail', course_id=course.id) }}" class="btn btn-secondary">Back to Course</a>
+    </div>
+</div>
+<script>
+function updateTimer() {
+    const expires = new Date("{{ qr_session.expires_at }}");
+    const now = new Date();
+    const diff = expires - now;
+    if (diff <= 0) {
+        document.getElementById('time-remaining').innerHTML = '⏰ <strong>EXPIRED</strong>';
+        document.querySelector('.badge-success').className = 'badge badge-danger';
+        document.querySelector('.badge').textContent = 'Expired';
+    } else {
+        const minutes = Math.floor(diff / 60000);
+        const seconds = Math.floor((diff % 60000) / 1000);
+        document.getElementById('time-remaining').innerHTML = `⏰ Time remaining: <strong>${minutes}:${seconds.toString().padStart(2, '0')}</strong>`;
+        setTimeout(updateTimer, 1000);
+    }
+}
+updateTimer();
+</script>
+{% endblock %}

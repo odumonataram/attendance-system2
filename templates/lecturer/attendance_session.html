@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Attendance Session{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>📊 Attendance Session</h1>
+    <p>{{ course.course_code }} - {{ course.course_name }}</p>
+    <p>{{ qr_session.generated_at.strftime('%Y-%m-%d %I:%M %p') }}</p>
+</div>
+<div class="stats-grid">
+    <div class="stat-card">
+        <h3>{{ total_present }}</h3>
+        <p>Present</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ total_registered - total_present }}</h3>
+        <p>Absent</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ '%.1f'|format((total_present / total_registered * 100) if total_registered > 0 else 0) }}%</h3>
+        <p>Attendance Rate</p>
+    </div>
+</div>
+<div class="action-buttons">
+    <a href="{{ url_for('lecturer.export_attendance', session_id=qr_session.id) }}" class="btn btn-success">📥 Export to Excel</a>
+</div>
+<div class="table-card">
+    <h2>Students Present</h2>
+    <table class="data-table">
+        <thead>
+            <tr><th>Matric Number</th><th>Full Name</th><th>Time Marked</th></tr>
+        </thead>
+        <tbody id="attendance-list">
+            {% for item in students_present %}
+            <tr>
+                <td>{{ item.student.matric_number }}</td>
+                <td>{{ item.student.full_name }}</td>
+                <td>{{ item.marked_at.strftime('%I:%M:%S %p') }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="3" class="text-center">No attendance marked yet</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

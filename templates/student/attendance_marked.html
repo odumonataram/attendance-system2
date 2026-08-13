@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Already Marked{% endblock %}
+{% block content %}
+<div class="warning-container">
+    <div class="warning-card">
+        <div class="warning-icon">⚠️</div>
+        <h1>Attendance Already Marked</h1>
+        <p>You have already marked your attendance for this session.</p>
+        <p><strong>Course:</strong> {{ course.course_code }} - {{ course.course_name }}</p>
+        <a href="{{ url_for('auth.logout') }}" class="btn btn-primary">Done</a>
+    </div>
+</div>
+{% endblock %}

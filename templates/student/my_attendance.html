@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}My Attendance{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>📊 My Attendance</h1>
+    <p>{{ current_user.full_name }} ({{ current_user.matric_number }})</p>
+</div>
+<div class="courses-grid">
+    {% for data in courses_data %}
+    <div class="attendance-card">
+        <h3>{{ data.course.course_code }}</h3>
+        <p>{{ data.course.course_name }}</p>
+        <p class="course-section">Section {{ data.course.section }}</p>
+        <div class="attendance-stats">
+            <div class="stat">
+                <strong>{{ data.attended_sessions }}</strong>
+                <span>Attended</span>
+            </div>
+            <div class="stat">
+                <strong>{{ data.total_sessions }}</strong>
+                <span>Total</span>
+            </div>
+            <div class="stat">
+                <strong>{{ data.attendance_percentage }}%</strong>
+                <span>Rate</span>
+            </div>
+        </div>
+        <a href="{{ url_for('student.course_attendance', course_id=data.course.id) }}" class="btn btn-secondary btn-sm">View Details</a>
+    </div>
+    {% else %}
+    <p>You are not registered for any courses yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

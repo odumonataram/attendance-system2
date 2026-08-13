@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Attendance System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🎛️ Admin Dashboard</h1>
+    <p>Manage the entire attendance system</p>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">👨‍🏫</div>
+        <div class="stat-content">
+            <h3>{{ total_lecturers }}</h3>
+            <p>Total Lecturers</p>
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon">👨‍🎓</div>
+        <div class="stat-content">
+            <h3>{{ total_students }}</h3>
+            <p>Total Students</p>
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon">📚</div>
+        <div class="stat-content">
+            <h3>{{ total_courses }}</h3>
+            <p>Total Courses</p>
+        </div>
+    </div>
+</div>
+
+<div class="action-cards">
+    <div class="action-card">
+        <h3>Quick Actions</h3>
+        <div class="action-buttons">
+            <a href="{{ url_for('admin.add_lecturer') }}" class="btn btn-primary">➕ Add Lecturer</a>
+            <a href="{{ url_for('admin.add_student') }}" class="btn btn-primary">➕ Add Student</a>
+            <a href="{{ url_for('admin.courses') }}" class="btn btn-secondary">📚 View All Courses</a>
+        </div>
+    </div>
+</div>
+
+<div class="recent-section">
+    <div class="recent-card">
+        <h3>Recent Lecturers</h3>
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Courses</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lecturer in recent_lecturers %}
+                    <tr>
+                        <td>{{ lecturer.full_name }}</td>
+                        <td>{{ lecturer.username }}</td>
+                        <td>{{ lecturer.email }}</td>
+                        <td>{{ lecturer.courses_taught|length }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">No lecturers added yet</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="recent-card">
+        <h3>Recent Students</h3>
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Matric No.</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in recent_students %}
+                    <tr>
+                        <td>{{ student.full_name }}</td>
+                        <td>{{ student.matric_number }}</td>
+                        <td>{{ student.email }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3" class="text-center">No students added yet</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

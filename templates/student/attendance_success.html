@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Success!{% endblock %}
+{% block content %}
+<div class="success-container">
+    <div class="success-card">
+        <div class="success-icon">✅</div>
+        <h1>Attendance Marked Successfully!</h1>
+        <div class="success-info">
+            <p><strong>Course:</strong> {{ course.course_code }} - {{ course.course_name }}</p>
+            <p><strong>Time:</strong> {{ attendance.marked_at.strftime('%I:%M %p') }}</p>
+            <p><strong>Date:</strong> {{ attendance.marked_at.strftime('%Y-%m-%d') }}</p>
+        </div>
+        <a href="{{ url_for('auth.logout') }}" class="btn btn-primary">Done</a>
+    </div>
+</div>
+{% endblock %}
